@@ -46,6 +46,8 @@ function process() {
     //we don't need the space
     final = final.replaceAll(" ","");
     document.getElementById("result").innerHTML = final;
+    return false
+
 }
 
 </script>
@@ -54,7 +56,7 @@ function process() {
     <div id="result">...</div>
     <form name="syllable">
     <input type="text" name="word" style="display: block; height: 48px;width:300px"><br/>
-    <input type="button" onclick="process()" value="do">
+    <input type="submit" onclick="return process()" value="Process" autocomplete="off">
     </form>
 
 
