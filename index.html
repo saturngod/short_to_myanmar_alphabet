@@ -43,6 +43,8 @@ function process() {
     //first one is empty
     array.shift();
     var final = array.map((e)=> e.substring(0,1)).join("");
+    //we don't need the space
+    final = final.replaceAll(" ","");
     document.getElementById("result").innerHTML = final;
 }
 
