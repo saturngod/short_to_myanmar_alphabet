@@ -1,64 +1,68 @@
 <html>
+
 <head>
     <title>Only Myanmar Alphabet - Remove others</title>
-<script>
-const myConsonant = "\u1000-\u1021"; // "က-အ"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" />
+    <script>
+        const myConsonant = "\u1000-\u1021"; // "က-အ"
 
-const enChar = "a-zA-Z0-9";
+        const enChar = "a-zA-Z0-9";
 
-// "ဣဤဥဦဧဩဪဿ၌၍၏၀-၉၊။!-/:-@[-`{-~\s"
-const otherChar = "\u1023\u1024\u1025\u1026\u1027\u1029\u102a\u103f\u104c\u104d\u104f\u1040-\u1049\u104a\u104b!-/:-@\\[-`\\{-~\\s";
+        // "ဣဤဥဦဧဩဪဿ၌၍၏၀-၉၊။!-/:-@[-`{-~\s"
+        const otherChar = "\u1023\u1024\u1025\u1026\u1027\u1029\u102a\u103f\u104c\u104d\u104f\u1040-\u1049\u104a\u104b!-/:-@\\[-`\\{-~\\s";
 
-const ssSymbol = "\u1039";
+        const ssSymbol = "\u1039";
 
-const ngaThat = "\u1004\u103a";
+        const ngaThat = "\u1004\u103a";
 
-const aThat = "\u103a";
+        const aThat = "\u103a";
 
-// Regular expression pattern for Myanmar syllable breaking
-// *** a consonant not after a subscript symbol AND a consonant is not
-// followed by a-That character or a subscript symbol
-const BREAK_PATTERN = new RegExp("((?!" + ssSymbol + ")[" + myConsonant + "](?![" + aThat + ssSymbol + "])" + "|[" + enChar + otherChar + "])", "mg");
+        // Regular expression pattern for Myanmar syllable breaking
+        // *** a consonant not after a subscript symbol AND a consonant is not
+        // followed by a-That character or a subscript symbol
+        const BREAK_PATTERN = new RegExp("((?!" + ssSymbol + ")[" + myConsonant + "](?![" + aThat + ssSymbol + "])" + "|[" + enChar + otherChar + "])", "mg");
 
-function segment(text) {
-	var outArray = text.replace(BREAK_PATTERN, "𝕊$1").split('𝕊')
-	if (outArray.length > 0) {
-		outArray.shift();
-		//out.splice(0, 1);
-	}
-	return outArray;
-}
+        function segment(text) {
+            var outArray = text.replace(BREAK_PATTERN, "𝕊$1").split('𝕊')
+            if (outArray.length > 0) {
+                outArray.shift();
+                //out.splice(0, 1);
+            }
+            return outArray;
+        }
 
-function segmentWithSeparator(text, separator) {
-	if (separator === undefined) {
-		separator = "|";
-	}
-	return text.replace(BREAK_PATTERN, separator + "$1");
-}
+        function segmentWithSeparator(text, separator) {
+            if (separator === undefined) {
+                separator = "|";
+            }
+            return text.replace(BREAK_PATTERN, separator + "$1");
+        }
 
-function process() {
-    let text = document.syllable.word.value;
-    let segment = segmentWithSeparator(text,"|");
-    var array = segment.split("|");
-    //first one is empty
-    array.shift();
-    var final = array.map((e)=> e.substring(0,1)).join("");
-    //we don't need the space
-    final = final.replaceAll(" ","");
-    document.getElementById("result").innerHTML = final;
-    return false
+        function process() {
+            let text = document.syllable.word.value;
+            let segment = segmentWithSeparator(text, "|");
+            var array = segment.split("|");
+            //first one is empty
+            array.shift();
+            var final = array.map((e) => e.substring(0, 1).replace(" ", "")).join("");
+            document.getElementById("result").innerHTML = final;
+            return false
 
-}
+        }
 
-</script>
+    </script>
 </head>
-<body>
-    <div id="result">...</div>
-    <form name="syllable">
-    <input type="text" name="word" style="display: block; height: 48px;width:300px"><br/>
-    <input type="submit" onclick="return process()" value="Process" autocomplete="off">
-    </form>
 
+<body>
+    <main class="container">
+        <div id="result"></div>
+        <br/>
+        <form name="syllable">
+            <input class="form-control" type="text" name="word" style="display: block; height: 48px;width:300px" autocomplete="off"><br />
+            <input class="btn btn-primary" type="submit" onclick="return process()" value="Process">
+        </form>
+    </main>
 
 </body>
+
 </html>
