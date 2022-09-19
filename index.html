@@ -40,6 +40,7 @@
 
         function process() {
             let text = document.syllable.word.value;
+            text = text.replaceAll("့်","့်");
             let segment = segmentWithSeparator(text, "|");
             var array = segment.split("|");
             //first one is empty
